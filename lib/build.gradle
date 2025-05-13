@@ -1,0 +1,65 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+group = 'net.hollage.libs'
+version = '0.0.1'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    awsSdkVersion = '2.31.40'
+    jupiterEngineVersion = '5.13.0-M3'
+    jupiterPlatformVersion = '1.13.0-M3'
+    mockitoVersion = '5.17.0'
+}
+
+dependencies {
+    api libs.commons.math3
+    implementation libs.guava
+
+    // AWS SDK
+    implementation platform("software.amazon.awssdk:bom:${awsSdkVersion}")
+    implementation "software.amazon.awssdk:s3:${awsSdkVersion}"
+    implementation "software.amazon.awssdk:auth:${awsSdkVersion}"
+    implementation "software.amazon.awssdk:core:${awsSdkVersion}"
+
+    // MessageSender
+    implementation "com.sun.mail:jakarta.mail:2.0.1"
+
+    // テスト用
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${jupiterEngineVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:${jupiterEngineVersion}"
+    testRuntimeOnly    "org.junit.jupiter:junit-jupiter-engine:${jupiterEngineVersion}"
+    testImplementation "org.junit.platform:junit-platform-launcher:${jupiterPlatformVersion}"
+    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
+    testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    withSourcesJar()
+    withJavadocJar()
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+tasks.withType(Javadoc).configureEach {
+    options.encoding = 'UTF-8'
+    options.locale = 'ja_JP'
+}
