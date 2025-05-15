@@ -16,13 +16,15 @@ import java.util.Objects;
 /**
  * Slackメッセージ送信実装クラス.
  * <p>
+ * Slackのwebhook URLを使用してメッセージを送信します。
+ * </p>
+ *
  * 使用例:
  * <pre>{@code
  * String webhookUrl = "https://hooks.slack.com/services/XXXXX/YYYYY/ZZZZZ";
  * MessageSender slackSender = new SlackMessageSender(webhookUrl);
  * slackSender.sendMessage("Slackへのテストメッセージ");
  * }</pre>
- * </p>
  *
  * @since 1.0
  */

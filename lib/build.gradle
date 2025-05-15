@@ -58,8 +58,3 @@ publishing {
         }
     }
 }
-
-tasks.withType(Javadoc).configureEach {
-    options.encoding = 'UTF-8'
-    options.locale = 'ja_JP'
-}
