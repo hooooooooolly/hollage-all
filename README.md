@@ -4,6 +4,14 @@
 
 個人用ライブラリ.
 
+## 使い方
+
+```groovy:build.gradle
+dependencies {
+    implementation 'net.hollage.libs:hollage-all:0.0.1'
+}
+```
+
 ## 動作環境
 
 - Amazon Corretto 21.0.6

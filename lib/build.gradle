@@ -51,13 +51,14 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+// ./gradlew clean build publishToMavenLocal
 publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
 
             groupId = 'net.hollage.libs'
-            artifactId = 'notify'
+            artifactId = 'hollage-all'
             version = "${version}"
         }
     }
