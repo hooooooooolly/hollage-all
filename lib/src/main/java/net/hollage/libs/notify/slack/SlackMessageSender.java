@@ -9,7 +9,6 @@ import net.hollage.libs.notify.http.HttpClient;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 

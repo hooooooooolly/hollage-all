@@ -55,6 +55,10 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+
+            groupId = 'net.hollage.libs'
+            artifactId = 'notify'
+            version = "${version}"
         }
     }
 }
