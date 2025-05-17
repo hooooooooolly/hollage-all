@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'net.hollage.libs'
-version = '0.0.1'
+version = '0.0.2'
 
 repositories {
     mavenCentral()
@@ -26,9 +26,14 @@ dependencies {
     implementation "software.amazon.awssdk:s3:${awsSdkVersion}"
     implementation "software.amazon.awssdk:auth:${awsSdkVersion}"
     implementation "software.amazon.awssdk:core:${awsSdkVersion}"
+    implementation "software.amazon.awssdk:eventbridge:${awsSdkVersion}"
+    implementation "software.amazon.awssdk:scheduler:${awsSdkVersion}"
 
     // MessageSender
     implementation "com.sun.mail:jakarta.mail:2.0.1"
+
+    // Map->JSON変換
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.19.0'
 
     // テスト用
     testImplementation "org.junit.jupiter:junit-jupiter-api:${jupiterEngineVersion}"
