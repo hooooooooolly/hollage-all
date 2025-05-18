@@ -15,25 +15,16 @@ import java.util.Optional;
 /**
  * EventBridge Scheduler用ラッパー.
  * <pre>{@code
- * EventBridgeSchedulerService schedulerService = new EventBridgeSchedulerService();
- *
- * // ターゲット設定（ここではLambda ARNと送信するJSON）
+ * // 使用例
+ * String name = "my-scheduler-job-id-001";
+ * String groupName = "group-name";
+ * OffsetDateTime runAt = Instant.parse("2025-01-23T12:34:45Z").atOffset(ZoneOffset.UTC);
  * String arn = "arn:aws:lambda:ap-northeast-1:123456789012:function:my-lambda-function";
  * String roleArn ="arn:aws:iam::123456789012:role/service-role/Amazon_EventBridge_Scheduler_LAMBDA_1234567890";
  * String json = "{\"message\":\"こんにちは\",\"type\":\"reminder\"}";
  *
- * // スケジュール実行時刻（UTC）
- * OffsetDateTime runAt = Instant.parse("2025-01-23T12:34:45Z").atOffset(ZoneOffset.UTC);
- *
- * // スケジュール作成
- * schedulerService.scheduleOneTimeEvent(
- *     "my-scheduler-job-id-001", // EventBridgeスケジュール名
- *     "group-name", // EventBridgeグループ名（デフォルト値: default）
- *     runAt,
- *     arn,
- *     roleArn,
- *     json
- * );
+ * EventBridgeSchedulerService schedulerService = new EventBridgeSchedulerService();
+ * schedulerService.scheduleOneTimeEvent(name, groupName, runAt, arn, roleArn, json);
  * }</pre>
  */
 public class EventBridgeSchedulerService {
@@ -114,7 +105,9 @@ public class EventBridgeSchedulerService {
                     .target(t -> t
                             .arn(targetArn)
                             .roleArn(roleArn)
-                            .input(payload))
+                            .input(payload)
+                            .retryPolicy(RetryPolicy.builder().maximumRetryAttempts(1).build()))
+                    .actionAfterCompletion(ActionAfterCompletion.DELETE)
                     .build();
 
             schedulerClient.createSchedule(request);
