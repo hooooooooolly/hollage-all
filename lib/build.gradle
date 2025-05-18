@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'net.hollage.libs'
-version = '0.0.2'
+version = '0.0.3'
 
 repositories {
     mavenCentral()

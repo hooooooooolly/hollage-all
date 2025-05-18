@@ -15,21 +15,24 @@ import java.util.Optional;
 /**
  * EventBridge Scheduler用ラッパー.
  * <pre>{@code
+ * EventBridgeSchedulerService schedulerService = new EventBridgeSchedulerService();
+ *
  * // ターゲット設定（ここではLambda ARNと送信するJSON）
- * ScheduleTarget target = new ScheduleTarget(
- *             "arn:aws:lambda:ap-northeast-1:123456789012:function:myLambdaFunction",
- *             Map.of("message", "こんにちは", "type", "reminder")
- *         );
+ * String arn = "arn:aws:lambda:ap-northeast-1:123456789012:function:my-lambda-function";
+ * String roleArn ="arn:aws:iam::123456789012:role/service-role/Amazon_EventBridge_Scheduler_LAMBDA_1234567890";
+ * String json = "{\"message\":\"こんにちは\",\"type\":\"reminder\"}";
  *
  * // スケジュール実行時刻（UTC）
- * Instant runAt = Instant.parse("2025-05-18T03:00:00Z");
+ * OffsetDateTime runAt = Instant.parse("2025-01-23T12:34:45Z").atOffset(ZoneOffset.UTC);
  *
  * // スケジュール作成
  * schedulerService.scheduleOneTimeEvent(
- *     "my-scheduler-job-id-001",
+ *     "my-scheduler-job-id-001", // EventBridgeスケジュール名
+ *     "group-name", // EventBridgeグループ名（デフォルト値: default）
  *     runAt,
- *     "default", // スケジューラ名（任意、デフォルトで "default" を利用可）
- *     target
+ *     arn,
+ *     roleArn,
+ *     json
  * );
  * }</pre>
  */
