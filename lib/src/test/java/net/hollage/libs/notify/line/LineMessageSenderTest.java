@@ -33,7 +33,7 @@ class LineMessageSenderTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        sender = new LineMessageSender(TEST_TOKEN, mockHttpClient);
+        sender = new LineMessageSender(TEST_TOKEN, "", mockHttpClient);
         when(mockHttpClient.createConnection(anyString())).thenReturn(mockConnection);
     }
 

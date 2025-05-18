@@ -6,63 +6,74 @@ import net.hollage.libs.notify.exception.MessageSendRuntimeException;
 import net.hollage.libs.notify.http.DefaultHttpClient;
 import net.hollage.libs.notify.http.HttpClient;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 /**
- * LINE送信実装クラス.
- * [How to Use]
- * String token = "YOUR_LINE_NOTIFY_TOKEN";
- * MessageSender lineSender = new LineMessageSender(token);
- * lineSender.sendMessage("これはLINE Notifyからのテストメッセージです");
+ * <p>このクラスは、LINEメッセージ送信用の実装です.</p>
+ * <p>送信先IDはLINE IDではなく、LINE Messaging APIから取得したユーザIDやグループIDです.</p>
+ *
+ * <h2>使用例</h2>
+ * <pre>{@code
+ * String accessToken = "INPUT_YOUR_CHANNEL_ACCESS_TOKEN";
+ * String to = "INPUT_TARGET_USER_ID_OR_GROUP_ID";
+ *
+ * LineMessageSender sender = new LineMessageSender(accessToken, to);
+ * sender.sendMessage("send test message");
+ * }</pre>
+ *
+ * @see <a href="https://developers.line.biz/ja/docs/messaging-api/sending-messages/">LINE Developers</a>
  */
-public class LineMessageSender implements MessageSender {
+class LineMessageSender implements MessageSender {
 
-    /** アクセストークン. */
-    private final String accessToken;
+    private static final String LINE_API_URL = "https://api.line.me/v2/bot/message/push";
+
+    private final String channelAccessToken;
+    private final String to;
     private final HttpClient httpClient;
-    private static final String LINE_API_URL = "https://notify-api.line.me/api/notify";
 
-    /**
-     * コンストラクタ.
-     *
-     * @param accessToken アクセストークン
-     */
-    public LineMessageSender(String accessToken) {
-        this(accessToken, new DefaultHttpClient());
+    public LineMessageSender(String channelAccessToken, String to) {
+        this.channelAccessToken = channelAccessToken;
+        this.to = to;
+        this.httpClient = new DefaultHttpClient();
     }
 
-    // テスト用コンストラクタ
-    LineMessageSender(String accessToken, HttpClient httpClient) {
-        this.accessToken = accessToken;
+    public LineMessageSender(String channelAccessToken, String to, HttpClient httpClient) {
+        this.channelAccessToken = channelAccessToken;
+        this.to = to;
         this.httpClient = httpClient;
     }
 
     @Override
-    public void sendMessage(String message) throws MessageSendException, MessageSendRuntimeException {
+    public void sendMessage(String message) {
         try {
-            HttpURLConnection conn = httpClient.createConnection(LINE_API_URL);
-            conn.setRequestMethod("POST");
-            conn.setDoOutput(true);
-            conn.setRequestProperty("Authorization", "Bearer " + accessToken);
-            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            HttpURLConnection connection = httpClient.createConnection(LINE_API_URL);
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Authorization", "Bearer " + channelAccessToken);
 
-            String data = "message=" + URLEncoder.encode(message, StandardCharsets.UTF_8);
+            String jsonPayload = String.format(
+                    "{\"to\":\"%s\",\"messages\":[{\"type\":\"text\",\"text\":\"%s\"}]}",
+                    to, escapeJson(message)
+            );
 
-            try (OutputStream os = conn.getOutputStream()) {
-                os.write(data.getBytes(StandardCharsets.UTF_8));
+            try (OutputStream os = connection.getOutputStream()) {
+                os.write(jsonPayload.getBytes(StandardCharsets.UTF_8));
+                os.flush();
             }
 
-            int responseCode = conn.getResponseCode();
+            int responseCode = connection.getResponseCode();
             if (responseCode != 200) {
-                throw new MessageSendRuntimeException("LINE Notify failed. HTTP error code: " + responseCode);
+                throw new MessageSendRuntimeException("Failed to send message to LINE: HTTP " + responseCode);
             }
-        } catch (IOException e) {
-            throw new MessageSendException(e.getMessage());
+        } catch (Exception e) {
+            throw new MessageSendRuntimeException("LINE メッセージの送信に失敗しました", e);
         }
+    }
+
+    private String escapeJson(String text) {
+        return text.replace("\"", "\\\"");
     }
 }
