@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * <p>このクラスは、LINEメッセージ送信用の実装です.</p>
  * <p>送信先IDはLINE IDではなく、LINE Messaging APIから取得したユーザIDやグループIDです.</p>
+ * <pre>body.events.source.userId</pre>
  *
  * <h2>使用例</h2>
  * <pre>{@code
