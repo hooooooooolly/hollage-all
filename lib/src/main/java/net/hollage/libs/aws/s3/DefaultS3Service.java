@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class DefaultS3Service implements S3Service {
 
+    /** S3クライアント用ラッパー. */
     private final S3ClientWrapper client;
 
     /**

@@ -29,8 +29,9 @@ import java.util.Optional;
  */
 public class EventBridgeSchedulerService {
 
+    /** SchedulerClient. */
     private final SchedulerClient schedulerClient;
-
+    /** UTCタイムゾーンでの日付時刻のフォーマッター. */
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     /**
@@ -44,7 +45,9 @@ public class EventBridgeSchedulerService {
     }
 
     /**
-     * 東京リージョン以外の場合のコンストラクタ.
+     * 任意のリージョンの場合のコンストラクタ.
+     *
+     * @param region リージョン
      */
     public EventBridgeSchedulerService(Region region) {
         this.schedulerClient = SchedulerClient.builder()

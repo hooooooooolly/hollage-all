@@ -28,18 +28,35 @@ import java.nio.charset.StandardCharsets;
  */
 public class LineMessageSender implements MessageSender {
 
+    /** LINE APIのURL */
     private static final String LINE_API_URL = "https://api.line.me/v2/bot/message/push";
 
+    /** LINE Messaging APIのチャンネルアクセストークン. */
     private final String channelAccessToken;
+    /** 送信先のID. */
     private final String to;
+    /** HTTPクライアント. */
     private final HttpClient httpClient;
 
+    /**
+     * デフォルトHTTPクライアントを使う場合のコンストラクタ.
+     *
+     * @param channelAccessToken LINE Messaging APIのチャンネルアクセストークン
+     * @param to 送り先のユーザIDやグループID
+     */
     public LineMessageSender(String channelAccessToken, String to) {
         this.channelAccessToken = channelAccessToken;
         this.to = to;
         this.httpClient = new DefaultHttpClient();
     }
 
+    /**
+     * アレンジHTTPクライアントを使う場合のコンストラクタ.
+     *
+     * @param channelAccessToken LINE Messaging APIのチャンネルアクセストークン
+     * @param to 送り先のユーザIDやグループID
+     * @param httpClient デフォルト以外のHTTPクライアント
+     */
     public LineMessageSender(String channelAccessToken, String to, HttpClient httpClient) {
         this.channelAccessToken = channelAccessToken;
         this.to = to;
@@ -74,6 +91,12 @@ public class LineMessageSender implements MessageSender {
         }
     }
 
+    /**
+     * jsonのエスケープを行います.
+     *
+     * @param text エスケープしたいテキスト
+     * @return エスケープ後のjsonテキスト
+     */
     private String escapeJson(String text) {
         return text.replace("\"", "\\\"");
     }

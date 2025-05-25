@@ -7,6 +7,7 @@ import java.net.URL;
 
 /** HTTPクライアントのデフォルト実装. */
 public class DefaultHttpClient implements HttpClient {
+
     @Override
     public HttpURLConnection createConnection(String urlString) throws IOException {
         URL url = URI.create(urlString).toURL();

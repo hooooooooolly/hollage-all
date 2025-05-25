@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 
 /** HTTPクライアントのインターフェース. */
 public interface HttpClient {
+
     /**
      * URLに接続するためのHttpURLConnectionを生成する.
      * @param urlString URL文字列

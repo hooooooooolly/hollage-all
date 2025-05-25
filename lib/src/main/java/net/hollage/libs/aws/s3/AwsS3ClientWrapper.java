@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 /** S3クライアント用ラッパー. */
 public class AwsS3ClientWrapper implements S3ClientWrapper {
 
+    /** S3クライアント. */
     private final S3Client s3;
 
     /**

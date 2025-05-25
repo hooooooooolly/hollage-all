@@ -6,6 +6,7 @@ import java.net.URL;
 
 /** URLコネクションファクトリのインターフェース. */
 public interface HttpURLConnectionFactory {
+
     /**
      * URLコネクションを生成する.
      * @param url URL
