@@ -12,7 +12,6 @@ import java.nio.charset.StandardCharsets;
 /**
  * <p>このクラスは、LINEメッセージ送信用の実装です.</p>
  * <p>送信先IDはLINE IDではなく、LINE Messaging APIから取得したユーザIDやグループIDです.</p>
- * <pre>body.events.source.userId</pre>
  *
  * <h2>使用例</h2>
  * <pre>{@code
@@ -25,7 +24,7 @@ import java.nio.charset.StandardCharsets;
  *
  * @see <a href="https://developers.line.biz/ja/docs/messaging-api/sending-messages/">LINE Developers</a>
  */
-public class LineMessageSender implements MessageSender {
+class LineMessageSender implements MessageSender {
 
     /** LINE APIのURL */
     private static final String LINE_API_URL = "https://api.line.me/v2/bot/message/push";
