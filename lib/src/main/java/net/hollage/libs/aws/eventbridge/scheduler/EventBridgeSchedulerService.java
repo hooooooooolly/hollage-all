@@ -4,13 +4,13 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.scheduler.SchedulerClient;
 import software.amazon.awssdk.services.scheduler.model.*;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
+import software.amazon.awssdk.utils.StringUtils;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * EventBridge Scheduler用ラッパー.
@@ -102,7 +102,7 @@ public class EventBridgeSchedulerService {
             String scheduleExpression = "at(" + offsetDateTime.format(DATE_TIME_FORMATTER) + ")";
             CreateScheduleRequest request = CreateScheduleRequest.builder()
                     .name(name)
-                    .groupName(Optional.of(groupName).isEmpty() ? "default" : groupName)
+                    .groupName(StringUtils.isEmpty(groupName) ? "default" : groupName)
                     .scheduleExpression(scheduleExpression)
                     .flexibleTimeWindow(f -> f.mode(FlexibleTimeWindowMode.OFF))
                     .target(t -> t

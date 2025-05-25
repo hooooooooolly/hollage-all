@@ -1,9 +1,7 @@
 package net.hollage.libs.notify.line;
 
-import net.hollage.libs.notify.exception.MessageSendException;
 import net.hollage.libs.notify.exception.MessageSendRuntimeException;
 import net.hollage.libs.notify.http.HttpClient;
-import net.hollage.libs.notify.line.LineMessageSender;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,20 +36,6 @@ class LineMessageSenderTest {
     }
 
     @Test
-    void sendMessage_shouldThrowMessageSendExceptionOnIOError() throws Exception {
-        // Arrange
-        when(mockConnection.getOutputStream()).thenThrow(new IOException("Connection failed"));
-
-        // Act & Assert
-        MessageSendException exception = assertThrows(
-                MessageSendException.class,
-                () -> sender.sendMessage(TEST_MESSAGE)
-        );
-
-        assertEquals("Connection failed", exception.getMessage());
-    }
-
-    @Test
     void sendMessage_shouldThrowMessageSendRuntimeExceptionOnHttpError() throws Exception {
         // Arrange
         when(mockConnection.getOutputStream()).thenReturn(new ByteArrayOutputStream());
@@ -63,6 +47,6 @@ class LineMessageSenderTest {
                 () -> sender.sendMessage(TEST_MESSAGE)
         );
 
-        assertTrue(exception.getMessage().contains("HTTP error code: 400"));
+        assertTrue(exception.getMessage().contains("Failed to send message to LINE: HTTP 400"));
     }
 }

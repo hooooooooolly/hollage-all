@@ -1,7 +1,6 @@
 package net.hollage.libs.notify.line;
 
 import net.hollage.libs.notify.MessageSender;
-import net.hollage.libs.notify.exception.MessageSendException;
 import net.hollage.libs.notify.exception.MessageSendRuntimeException;
 import net.hollage.libs.notify.http.DefaultHttpClient;
 import net.hollage.libs.notify.http.HttpClient;
@@ -87,7 +86,7 @@ public class LineMessageSender implements MessageSender {
                 throw new MessageSendRuntimeException("Failed to send message to LINE: HTTP " + responseCode);
             }
         } catch (Exception e) {
-            throw new MessageSendRuntimeException("LINE メッセージの送信に失敗しました", e);
+            throw new MessageSendRuntimeException("LINE メッセージの送信に失敗しました。" + e.getMessage(), e);
         }
     }
 
