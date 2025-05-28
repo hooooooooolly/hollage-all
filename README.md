@@ -8,7 +8,7 @@
 
 ```groovy:build.gradle
 dependencies {
-    implementation 'net.hollage.libs:hollage-all:0.0.1'
+    implementation 'net.hollage.libs:hollage-all:{$latest}}'
 }
 ```
 

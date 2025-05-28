@@ -3,6 +3,7 @@ package net.hollage.libs.notify.discord;
 import net.hollage.libs.notify.MessageSender;
 import net.hollage.libs.notify.exception.MessageSendException;
 import net.hollage.libs.notify.exception.MessageSendRuntimeException;
+import net.hollage.libs.notify.http.DefaultHttpClient;
 import net.hollage.libs.notify.http.HttpClient;
 
 import java.io.IOException;
@@ -25,6 +26,16 @@ public class DiscordMessageSender implements MessageSender {
     private final String webhookUrl;
     /** HttpClient */
     private final HttpClient httpClient;
+
+    /**
+     * コンストラクタ.
+     *
+     * @param webhookUrl WebHookURL
+     */
+    public DiscordMessageSender(String webhookUrl) {
+        this.webhookUrl = Objects.requireNonNull(webhookUrl, "webhookUrl must not be null");
+        this.httpClient = new DefaultHttpClient();
+    }
 
     /**
      * コンストラクタ.
