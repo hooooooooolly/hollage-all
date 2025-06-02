@@ -1,0 +1,21 @@
+
+group = 'net.hollage.libs'
+
+dependencies {
+    // AWS SDK
+    implementation platform("software.amazon.awssdk:bom:$awsSdkVersion")
+    implementation "software.amazon.awssdk:core:$awsSdkVersion"
+    implementation "software.amazon.awssdk:eventbridge"
+}
+
+// ./gradlew clean build publishToMavenLocal
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId = 'net.hollage.libs'
+            artifactId = project.name
+            version = "${version}"
+        }
+    }
+}

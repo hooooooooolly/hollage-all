@@ -1,0 +1,43 @@
+
+ext {
+    awsSdkVersion = '2.31.40'
+    jupiterEngineVersion = '5.13.0-M3'
+    jupiterPlatformVersion = '1.13.0-M3'
+    mockitoVersion = '5.17.0'
+}
+
+allprojects {
+    group = 'net.hollage.libs'
+    version = '0.1.0'
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+
+    dependencies {
+        // テスト用
+        testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterEngineVersion"
+        testRuntimeOnly    "org.junit.jupiter:junit-jupiter-engine:$jupiterEngineVersion"
+        testImplementation "org.junit.platform:junit-platform-launcher:$jupiterPlatformVersion"
+        testImplementation "org.mockito:mockito-core:$mockitoVersion"
+        testImplementation "org.mockito:mockito-junit-jupiter:$mockitoVersion"
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+        withSourcesJar()
+        withJavadocJar()
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
