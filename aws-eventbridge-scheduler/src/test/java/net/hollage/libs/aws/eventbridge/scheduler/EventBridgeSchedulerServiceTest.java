@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
+import static org.mockito.ArgumentMatchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -21,7 +22,6 @@ public class EventBridgeSchedulerServiceTest {
 
     @BeforeEach
     void setup() {
-        EventBridgeSchedulerService service = null;
         mockClient = mock(SchedulerClient.class);
         // リフレクションや DI 設計変更で SchedulerClient を注入する形にするとより良いですが、
         // 今回は private final を直接使わないためのサブクラス作成で回避
@@ -43,7 +43,7 @@ public class EventBridgeSchedulerServiceTest {
     void testScheduleOneTimeEvent_withOffsetDateTime() {
         // Arrange
         OffsetDateTime offset = OffsetDateTime.of(2025, 5, 21, 12, 0, 0, 0, ZoneOffset.UTC);
-        when(mockClient.createSchedule(any())).thenReturn(CreateScheduleResponse.builder().build());
+        when(mockClient.createSchedule(any(CreateScheduleRequest.class))).thenReturn(CreateScheduleResponse.builder().build());
 
         // Act
         service.scheduleOneTimeEvent(
@@ -70,7 +70,7 @@ public class EventBridgeSchedulerServiceTest {
     @Test
     void testScheduleOneTimeEvent_withInstant() {
         Instant instant = Instant.parse("2025-05-21T12:00:00Z");
-        when(mockClient.createSchedule(any())).thenReturn(CreateScheduleResponse.builder().build());
+        when(mockClient.createSchedule(any(CreateScheduleRequest.class))).thenReturn(CreateScheduleResponse.builder().build());
 
         service.scheduleOneTimeEvent(
                 "instant-event",
@@ -81,6 +81,6 @@ public class EventBridgeSchedulerServiceTest {
                 "{\"msg\":\"instant\"}"
         );
 
-        verify(mockClient).createSchedule(any());
+        verify(mockClient).createSchedule(any(CreateScheduleRequest.class));
     }
 }
