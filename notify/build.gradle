@@ -1,0 +1,19 @@
+
+group = 'net.hollage.libs'
+
+dependencies {
+    // MessageSender
+    implementation "com.sun.mail:jakarta.mail:2.0.1"
+}
+
+// ./gradlew clean build publishToMavenLocal
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId = 'net.hollage.libs'
+            artifactId = project.name
+            version = "${version}"
+        }
+    }
+}
