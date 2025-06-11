@@ -2,43 +2,63 @@
 
 ## 目的
 
-個人用ライブラリ.
+個人用ライブラリ。
 
 ## 使い方
 
 ```groovy:build.gradle
 dependencies {
-    implementation 'net.hollage.libs:hollage-all:{$latest}}'
+    implementation 'net.hollage.libs:aws-eventbridge:{$latest}}'
+    implementation 'net.hollage.libs:aws-eventbridge-scheduler:{$latest}}'
+    implementation 'net.hollage.libs:aws-s3:{$latest}}'
+    implementation 'net.hollage.libs:notify:{$latest}}'
 }
 ```
 
-## 動作環境
+## 確認済み動作環境
 
-- Amazon Corretto 21.0.6
-- Gradle 8.10.2
-- IntelliJ IDEA 2025.1.1.1 (Community Edition)
-- Windows 11 Home 64bit
+- Amazon Corretto 21.0.6  
+- Gradle 8.10.2  
+- IntelliJ IDEA 2025.1.2 (Community Edition)  
+- Windows 11 Home 64bit  
 
 ## パッケージ一覧
 
-### net.hollage.libs.aws
+### aws-eventbridge
 
-AWSとのやり取りのための機能を提供します.
+EventBridgeに任意のJSONを送信します。
 
-#### S3
+### aws-eventbridge-scheduler
 
-- S3へのアップロード.
-- ダウンロード.
-- オブジェクトキー一覧の取得.
+EventBridge Schedulerを作成します。
 
-### net.hollage.libs.notify
+### aws-s3
 
-MessageSenderインターフェースを実装した、各種メッセージ通知用のパッケージです.
+- S3へのアップロード
+- ダウンロード
+- オブジェクトキー一覧の取得
+を行います。
 
-#### discord
 
-#### line
+### notify
 
-#### mail
+MessageSenderインターフェースを実装した、各種メッセージ通知用のパッケージです。  
+以下に対応。
+- discord
+- line
+- mail
+- slack
 
-#### slack
+## TODO
+
+- [x] hollage-allとしていたライブラリの分割  
+　→AWS周りのライブラリをallとして読み込むと利用側のJarが肥大化するため
+- [ ] aws-eventbridgeの動作確認
+- [x] aws-eventbridge-schedulerの動作確認
+- [ ] aws-s3の動作確認
+- [ ] notify.mailの動作不備修正  
+　→gmailで上手く送れないことを確認しています。
+
+## 補足
+
+プロダクト、テストコードの半分程度はChatGPTの力を借りています。
