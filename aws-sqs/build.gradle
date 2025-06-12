@@ -1,0 +1,25 @@
+group = 'net.hollage.libs'
+
+dependencies {
+    // AWS SDK
+    implementation platform("software.amazon.awssdk:bom:$awsSdkVersion")
+    implementation "software.amazon.awssdk:sqs"
+    implementation "software.amazon.awssdk:auth"
+    implementation "software.amazon.awssdk:regions"
+    implementation "software.amazon.awssdk:core:$awsSdkVersion"
+
+    // Jacksonを使う場合
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.19.0"
+}
+
+// ./gradlew clean build publishToMavenLocal
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId = 'net.hollage.libs'
+            artifactId = project.name
+            version = "${version}"
+        }
+    }
+}
