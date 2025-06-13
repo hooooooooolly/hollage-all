@@ -58,16 +58,18 @@ MessageSenderインターフェースを実装した、各種メッセージ通�
 
 ## TODO
 
-- [x] hollage-allとしていたライブラリの分割 →AWS周りのライブラリをallとして読み込むと利用側のJarが肥大化するため
+- [x] hollage-allとしていたライブラリの分割  
+  →AWS周りのライブラリをallとして読み込むと利用側のJarが肥大化するため
 - [ ] aws-eventbridgeの動作確認
 - [x] aws-eventbridge-schedulerの動作確認
 - [ ] aws-s3の動作確認
-- [ ] notify.mailの動作不備修正 →Gmailで上手く送れないことを確認しています。
+- [ ] notify.mailの動作不備修正  
+  →Gmailで上手く送れないことを確認しています。
 - [ ] aws-dynamodbの作成
-- [ ] aws-sqsの作成(テストコードがまだ)
+- [x] aws-sqsの作成
 - [ ] aws-snsの作成
 - [ ] aws-kinesisの作成
 
 ## 補足
 
-プロダクト、テストコード作成においてChatGPTを始めとしたAI生成の力を大いに借りています。  
+プロダクト、テストコード作成においてGitHub Copilotを始めとしたAI生成の力を大いに借りています。  
