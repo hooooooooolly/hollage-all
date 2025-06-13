@@ -1,10 +1,8 @@
 package net.hollage.libs.aws.sqs;
 
-import software.amazon.awssdk.services.sqs.model.Message;
-import software.amazon.awssdk.services.sqs.model.MessageAttributeValue;
-
 import java.util.List;
 import java.util.Map;
+import software.amazon.awssdk.services.sqs.model.MessageAttributeValue;
 
 /** SqsClientのラッパーインターフェース. */
 public interface SqsService {
@@ -34,7 +32,7 @@ public interface SqsService {
    * @param maxMessages 最大受信数
    * @return 受信したメッセージリスト
    */
-  List<Message> receiveMessages(String queueUrl, int maxMessages);
+  List<ReceiveMessage> receiveMessages(String queueUrl, int maxMessages);
 
   /**
    * キューからメッセージを削除する.
