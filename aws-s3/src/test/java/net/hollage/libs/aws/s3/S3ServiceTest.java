@@ -1,57 +1,70 @@
 package net.hollage.libs.aws.s3;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import software.amazon.awssdk.core.ResponseInputStream;
-import software.amazon.awssdk.services.s3.model.GetObjectResponse;
-
-import java.io.File;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.io.File;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import software.amazon.awssdk.core.ResponseInputStream;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.*;
+
 class S3ServiceTest {
 
-    private S3ClientWrapper clientMock;
-    private S3Service s3Service;
+  private S3Client clientMock;
+  private S3Service s3Service;
 
-    @BeforeEach
-    void setUp() {
-        clientMock = mock(S3ClientWrapper.class);
-        s3Service = new DefaultS3Service(clientMock);
-    }
+  @BeforeEach
+  void setUp() {
+    clientMock = mock(S3Client.class);
+    s3Service = new DefaultS3Service(clientMock);
+  }
 
-    @Test
-    void testUploadDelegatesToClientWrapper() {
-        File file = new File("test.txt");
-        s3Service.upload("my-bucket", "key/path/test.txt", file);
-        verify(clientMock).upload("my-bucket", "key/path/test.txt", file);
-    }
+  @Test
+  void testUpload() {
+    String bucket = "my-bucket";
+    String key = "file.txt";
+    File file = new File(getClass().getClassLoader().getResource("local.txt").getFile());
 
-    @Test
-    void testDownloadReturnsExpectedResponse() {
-        String bucket = "my-bucket";
-        String key = "file.txt";
-        ResponseInputStream<GetObjectResponse> mockStream = mock(ResponseInputStream.class);
+    s3Service.upload(bucket, key, file);
 
-        when(clientMock.download(bucket, key)).thenReturn(mockStream);
+    PutObjectRequest request = PutObjectRequest.builder().bucket(bucket).key(key).build();
+    verify(clientMock).putObject(eq(request), any(RequestBody.class));
+  }
 
-        ResponseInputStream<GetObjectResponse> result = s3Service.download(bucket, key);
-        assertEquals(mockStream, result);
-        verify(clientMock).download(bucket, key);
-    }
+  @Test
+  void testDownload() {
+    String bucket = "my-bucket";
+    String key = "file.txt";
+    ResponseInputStream<GetObjectResponse> mockStream = mock(ResponseInputStream.class);
 
-    @Test
-    void testListKeysReturnsExpectedList() {
-        String bucket = "my-bucket";
-        String prefix = "folder/";
-        List<String> expectedKeys = List.of("folder/file1.txt", "folder/file2.txt");
+    when(clientMock.getObject(any(GetObjectRequest.class))).thenReturn(mockStream);
 
-        when(clientMock.listKeys(bucket, prefix)).thenReturn(expectedKeys);
+    ResponseInputStream<GetObjectResponse> result = s3Service.download(bucket, key);
+    assertEquals(mockStream, result);
+    verify(clientMock).getObject(any(GetObjectRequest.class));
+  }
 
-        List<String> actualKeys = s3Service.listKeys(bucket, prefix);
-        assertEquals(expectedKeys, actualKeys);
-        verify(clientMock).listKeys(bucket, prefix);
-    }
+  @Test
+  void testListKeys() {
+    String bucket = "my-bucket";
+    String prefix = "folder/";
+    List<String> expectedKeys = List.of("folder/file1.txt", "folder/file2.txt");
+    when(clientMock.listObjectsV2(any(ListObjectsV2Request.class)))
+        .thenReturn(
+            ListObjectsV2Response.builder()
+                .contents(
+                    List.of(
+                        S3Object.builder().key("folder/file1.txt").build(),
+                        S3Object.builder().key("folder/file2.txt").build()))
+                .build());
+
+    List<String> actualKeys = s3Service.listKeys(bucket, prefix);
+
+    assertEquals(expectedKeys, actualKeys);
+    verify(clientMock).listObjectsV2(any(ListObjectsV2Request.class));
+  }
 }

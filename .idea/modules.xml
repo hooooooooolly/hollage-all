@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/aws-eventbridge-scheduler/libs.aws-eventbridge-scheduler.main.iml" filepath="$PROJECT_DIR$/.idea/modules/aws-eventbridge-scheduler/libs.aws-eventbridge-scheduler.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/aws-s3/libs.aws-s3.test.iml" filepath="$PROJECT_DIR$/.idea/modules/aws-s3/libs.aws-s3.test.iml" />
     </modules>
   </component>
 </project>

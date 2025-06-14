@@ -1,0 +1,1 @@
+# S3ServiceTest.testUpload用のファイルです

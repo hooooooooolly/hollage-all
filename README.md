@@ -62,7 +62,7 @@ MessageSenderインターフェースを実装した、各種メッセージ通�
   →AWS周りのライブラリをallとして読み込むと利用側のJarが肥大化するため
 - [ ] aws-eventbridgeの動作確認
 - [x] aws-eventbridge-schedulerの動作確認
-- [ ] aws-s3の動作確認
+- [x] aws-s3の動作確認
 - [ ] notify.mailの動作不備修正  
   →Gmailで上手く送れないことを確認しています。
 - [ ] aws-dynamodbの作成
