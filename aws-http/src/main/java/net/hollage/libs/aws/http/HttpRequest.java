@@ -1,4 +1,4 @@
-package net.hollage.libs.notify.http;
+package net.hollage.libs.aws.http;
 
 import java.io.IOException;
 import java.net.URI;

@@ -8,3 +8,5 @@ include 'aws-eventbridge'
 include 'aws-eventbridge-scheduler'
 include 'aws-s3'
 include 'aws-sqs'
+
+include 'aws-http'
