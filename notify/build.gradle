@@ -1,9 +1,9 @@
-
 group = 'net.hollage.libs'
 
 dependencies {
     // MessageSender
     implementation "com.sun.mail:jakarta.mail:2.0.1"
+    implementation "software.amazon.awssdk:apache-client:$awsSdkVersion"
 }
 
 // ./gradlew clean build publishToMavenLocal
