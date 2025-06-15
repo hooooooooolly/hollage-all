@@ -3,6 +3,7 @@ package net.hollage.libs.aws.http;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import software.amazon.awssdk.http.*;
 import software.amazon.awssdk.http.apache.ApacheHttpClient;
 import software.amazon.awssdk.utils.IoUtils;
@@ -54,17 +55,22 @@ public class HttpRequest {
    *
    * @param url POSTリクエストの送信先URL
    * @param body リクエストボディの文字列
+   * @param headers リクエストヘッダーのマップ（nullの場合はヘッダーなし）
    * @return レスポンスボディの文字列
    * @throws IOException
    */
-  public String sendPost(String url, String body) throws IOException {
-    SdkHttpFullRequest request =
+  public String sendPost(String url, String body, Map<String, String> headers) throws IOException {
+    SdkHttpFullRequestBuilder requestBuilder =
         SdkHttpFullRequest.builder()
             .method(SdkHttpMethod.POST)
             .uri(URI.create(url))
-            .putHeader("Content-Type", "application/json; charset=UTF-8")
-            .contentStreamProvider(ContentStreamProvider.fromString(body, StandardCharsets.UTF_8))
-            .build();
+            .contentStreamProvider(ContentStreamProvider.fromString(body, StandardCharsets.UTF_8));
+
+    if (headers != null) {
+      headers.forEach(requestBuilder::putHeader);
+    }
+
+    SdkHttpFullRequest request = requestBuilder.build();
 
     try (AbortableInputStream responseStream = send(request)) {
       return IoUtils.toUtf8String(responseStream);
