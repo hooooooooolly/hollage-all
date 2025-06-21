@@ -60,7 +60,7 @@ public class HttpRequest {
    * @throws IOException
    */
   public String sendPost(String url, String body, Map<String, String> headers) throws IOException {
-    SdkHttpFullRequestBuilder requestBuilder =
+    SdkHttpFullRequest.Builder requestBuilder =
         SdkHttpFullRequest.builder()
             .method(SdkHttpMethod.POST)
             .uri(URI.create(url))
