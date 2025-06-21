@@ -36,12 +36,12 @@ AWS周りを中心に各種メッセージ通知用の機能をパッケージ�
 
 ```groovy:build.gradle
 dependencies {
-    implementation 'net.hollage.libs:aws-eventbridge:{$latest}}'
-    implementation 'net.hollage.libs:aws-eventbridge-scheduler:{$latest}}'
-    implementation 'net.hollage.libs:aws-http:{$latest}}'
-    implementation 'net.hollage.libs:aws-s3:{$latest}}'
-    implementation 'net.hollage.libs:aws-sqs:{$latest}}'
-    implementation 'net.hollage.libs:notify:{$latest}}'
+    implementation 'net.hollage.libs:aws-eventbridge:{$latest}'
+    implementation 'net.hollage.libs:aws-eventbridge-scheduler:{$latest}'
+    implementation 'net.hollage.libs:aws-http:{$latest}'
+    implementation 'net.hollage.libs:aws-s3:{$latest}'
+    implementation 'net.hollage.libs:aws-sqs:{$latest}'
+    implementation 'net.hollage.libs:notify:{$latest}'
 }
 ```
 
@@ -63,7 +63,7 @@ dependencies {
   →v1.0.0リリースまでには明文化予定です。  
   GitHub Flowをベースに考えています。
 
-### 完了した機能
+### 完了した機能（その内消えます）
 
 - [x] hollage-allとしていたライブラリの分割  
   →AWS周りのライブラリをallとして読み込むと利用側のJarが肥大化するため
