@@ -52,6 +52,8 @@ dependencies {
 - [ ] README.mdの整備  
   →各ライブラリのREADME.mdを整備して、使い方を明確にする予定です。
 - [ ] aws-eventbridgeの動作確認
+- [ ] aws-eventbridge-schedulerのリファクタ
+  →ScheduleTargetを利用するメソッドを作成
 - [ ] notify.mailの動作不備修正  
   →Gmailで上手く送れないことを確認しています。
 - [ ] aws-dynamodbの作成
